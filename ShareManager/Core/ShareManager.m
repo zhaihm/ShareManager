@@ -8,9 +8,9 @@
 
 #import "ShareManager.h"
 
-#define ShareImageList    @[@"sns_weibo", @"sns_qzone", @"sns_weixin", @"sns_facebook", @"sns_twitter", @"sns_instagram"]
-#define ShareTitleList    @[Locale(@"sm.weibo"), Locale(@"sm.qzone"), Locale(@"sm.weixin"), Locale(@"sm.facebook"), Locale(@"sm.twitter"), Locale(@"sm.instagram")]
-#define ShareTagList      @[@(SMPlatformWeiboOAuth), @(SMPlatformTencentQQ), @(SMPlatformWeixin), @(SMPlatformFacebookOAuth), @(SMPlatformTwitterOAuth), @(SMPlatformInstagram)]
+#define ShareImageList    @[@"sns_weibo", @"sns_qzone", @"sns_weixin", @"sns_weixin_chat", @"sns_facebook", @"sns_twitter", @"sns_instagram"]
+#define ShareTitleList    @[Locale(@"sm.weibo"), Locale(@"sm.qzone"), Locale(@"sm.weixin"), @"微信", Locale(@"sm.facebook"), Locale(@"sm.twitter"), Locale(@"sm.instagram")]
+#define ShareTagList      @[@(SMPlatformWeiboOAuth), @(SMPlatformTencentQQ), @(SMPlatformWeixin), @(SMPlatformWeixinChat), @(SMPlatformFacebookOAuth), @(SMPlatformTwitterOAuth), @(SMPlatformInstagram)]
 
 @interface ShareManager ()
 @property (nonatomic, strong) NSString *tencentQQAppKey; //QQ App Key
@@ -244,6 +244,33 @@
                                                          [self showShareResultWithPlatform:SMPlatformWeixin state:ShareContentStateFail];
                                                      }
                                                  }];
+        }
+            break;
+        case SMPlatformWeixinChat:
+        {
+            [[ShareToWeixin sharedInstance] shareWithContent:_shareContent
+                                                       scene:WXSceneTypeSession
+                                             completionBlock:^(ShareContentState resultCode) {
+                                                 
+                                                 if (successBlock) {
+                                                     successBlock(resultCode);
+                                                 }
+                                                 [self showShareResultWithPlatform:SMPlatformWeixin state:ShareContentStateSuccess];
+                                                 
+                                             } failedBlock:^(ShareContentState resultCode) {
+                                                 
+                                                 if (failBlock) {
+                                                     failBlock(resultCode);
+                                                 }
+                                                 if (resultCode == ShareContentStateUnInstalled) {
+                                                     
+                                                     [self showShareResultWithPlatform:SMPlatformWeixin state:ShareContentStateUnInstalled];
+                                                     
+                                                 }else{
+                                                     
+                                                     [self showShareResultWithPlatform:SMPlatformWeixin state:ShareContentStateFail];
+                                                 }
+                                             }];
         }
             break;
         case SMPlatformWeibo:
