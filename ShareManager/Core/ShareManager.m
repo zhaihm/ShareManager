@@ -37,6 +37,10 @@
 @property (nonatomic, copy) ShareFinishBlock shareFinishBlock;
 
 @property (nonatomic, assign) int index;
+
+@property (nonatomic, strong) NSMutableArray *shareImageList;
+@property (nonatomic, strong) NSMutableArray *shareTitleList;
+@property (nonatomic, strong) NSMutableArray *shareTagList;
 @end
 
 @implementation ShareManager
@@ -55,6 +59,9 @@
     self = [super init];
     if (self) {
         _index = 0;
+        _shareImageList = [[NSMutableArray alloc] init];
+        _shareTitleList = [[NSMutableArray alloc] init];
+        _shareTagList = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -71,11 +78,17 @@
 {
     [[ShareToTencentQQ sharedInstance] initTencentQQWithAppKey:appKey appSecret:appSecret];
     _tencentQQAppKey = appKey;
+    [_shareImageList addObject:@"sns_qzone"];
+    [_shareTitleList addObject:Locale(@"sm.qzone")];
+    [_shareTagList addObject:@(SMPlatformTencentQQ)];
 }
 - (void)initWexinWithAppKey:(NSString *)appKey appSecret:(NSString *)appSecret
 {
     [[ShareToWeixin sharedInstance] initWeixinWithAppKey:appKey appSecret:appSecret];
     _weixinAppKey = appKey;
+    [_shareImageList addObjectsFromArray:@[@"sns_weixin_chat", @"sns_weixin"]];
+    [_shareTitleList addObjectsFromArray:@[Locale(@"sm.weixin_chat"), Locale(@"sm.weixin")]];
+    [_shareTagList addObjectsFromArray:@[@(SMPlatformWeixinChat), @(SMPlatformWeixin)]];
 }
 - (void)initWeiboWithAppKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectUri:(NSString *)redirectUri
 {
@@ -83,6 +96,9 @@
     _weiboAppKey = appKey;
     _weiboAppSecret = appSecret;
     _weiboRedirectUri = redirectUri;
+    [_shareImageList addObject:@"sns_weibo"];
+    [_shareTitleList addObject:Locale(@"sm.weibo")];
+    [_shareTagList addObject:@(SMPlatformWeiboOAuth)];
 }
 - (void)initTwitterWithAppKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectUri:(NSString *)redirectUri
 {
@@ -90,6 +106,9 @@
     _twitterAppKey = appKey;
     _twitterAppSecret = appSecret;
     _twitterRedirectUri = redirectUri;
+    [_shareImageList addObject:@"sns_twitter"];
+    [_shareTitleList addObject:Locale(@"sm.twitter")];
+    [_shareTagList addObject:@(SMPlatformTwitterOAuth)];
 }
 - (void)initFacebookWithAppKey:(NSString *)appKey appSecret:(NSString *)appSecret redirectUri:(NSString *)redirectUri
 {
@@ -97,10 +116,16 @@
     _facebookAppKey = appKey;
     _facebookAppSecret = appSecret;
     _facebookRedirectUri = redirectUri;
+    [_shareImageList addObject:@"sns_facebook"];
+    [_shareTitleList addObject:Locale(@"sm.facebook")];
+    [_shareTagList addObject:@(SMPlatformFacebookOAuth)];
 }
 - (void)initInstagram
 {
     [[ShareToInstagram sharedInstance] initInstagram];
+    [_shareImageList addObject:@"sns_instagram"];
+    [_shareTitleList addObject:Locale(@"sm.instagram")];
+    [_shareTagList addObject:@(SMPlatformInstagram)];
 }
 
 
@@ -170,7 +195,7 @@
 }
 - (void)showShareWindow
 {
-    [[ShareUI sharedInstance] showShareWindowWithImageList:ShareImageList titleList:ShareTitleList tagList:ShareTagList];
+    [[ShareUI sharedInstance] showShareWindowWithImageList:_shareImageList titleList:_shareTitleList tagList:_shareTagList];
     [ShareUI sharedInstance].delegate = self;
 }
 
