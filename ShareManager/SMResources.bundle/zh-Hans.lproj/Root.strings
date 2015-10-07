@@ -3,6 +3,7 @@
 
 "sm.weibo" = "新浪微博";
 "sm.qzone" = "QQ空间";
+"sm.weixin_chat" = "微信好友";
 "sm.weixin" = "微信朋友圈";
 "sm.facebook" = "Facebook";
 "sm.twitter" = "Twitter";

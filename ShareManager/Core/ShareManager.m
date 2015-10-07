@@ -8,8 +8,8 @@
 
 #import "ShareManager.h"
 
-#define ShareImageList    @[@"sns_weibo", @"sns_qzone", @"sns_weixin", @"sns_weixin_chat", @"sns_facebook", @"sns_twitter", @"sns_instagram"]
-#define ShareTitleList    @[Locale(@"sm.weibo"), Locale(@"sm.qzone"), Locale(@"sm.weixin"), @"微信", Locale(@"sm.facebook"), Locale(@"sm.twitter"), Locale(@"sm.instagram")]
+#define ShareImageList    @[@"sns_weibo", @"sns_qzone", @"sns_weixin_chat", @"sns_weixin", @"sns_facebook", @"sns_twitter", @"sns_instagram"]
+#define ShareTitleList    @[Locale(@"sm.weibo"), Locale(@"sm.qzone"), Locale(@"sm.weixin_chat"),Locale(@"sm.weixin"), Locale(@"sm.facebook"), Locale(@"sm.twitter"), Locale(@"sm.instagram")]
 #define ShareTagList      @[@(SMPlatformWeiboOAuth), @(SMPlatformTencentQQ), @(SMPlatformWeixin), @(SMPlatformWeixinChat), @(SMPlatformFacebookOAuth), @(SMPlatformTwitterOAuth), @(SMPlatformInstagram)]
 
 @interface ShareManager ()
